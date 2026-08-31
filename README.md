@@ -1,7 +1,7 @@
 # <h1 align="center">**Arctic Sea Ice Age Analysis**</h1>
 
 
-<p align="justify">Third project in my oceanographic data series. After a single-variable time series and a full 3D ocean biogeochemistry model, this one moves into the cryosphere: Arctic sea ice age and sea ice concentration by age category, built from a raw NetCDF model file. The goal was to build a full workflow around this kind of polar data — inspecting and processing the NetCDF file, aggregating it into daily time series, loading it into SQLite, and connecting it to an interactive Power BI dashboard.</p>
+<p align="justify">Second project in my oceanographic data series. After a single-variable time series and a full 3D ocean biogeochemistry model, this one moves into the cryosphere: Arctic sea ice age and sea ice concentration by age category, built from a raw NetCDF model file. The goal was to build a full workflow around this kind of polar data — inspecting and processing the NetCDF file, aggregating it into daily time series, loading it into SQLite, and connecting it to an interactive Power BI dashboard.</p>
 
 
 **Development environment:** Visual Studio Code (VS Code)
@@ -13,7 +13,7 @@
 ## Why This Dataset
 
 
-<p align="justify">Arctic sea ice is one of the most direct, visible indicators of climate change, and I wanted a project that went beyond "how much ice is there" into "what kind of ice is there." Sea ice age does exactly that: instead of a single concentration number, the dataset breaks the ice pack down by how many years it has survived — from first-year ice up to six-year-plus ice — which is a much better proxy for how resilient the ice cover actually is than total concentration alone. It also gave me a smaller, more manageable NetCDF file to practice the inspect → aggregate → database → dashboard pipeline on before scaling up to the full 3D ocean model in the biogeochemistry project.</p>
+<p align="justify">Arctic sea ice is one of the most direct, visible indicators of climate change, and I wanted a project that went beyond "how much ice is there" into "what kind of ice is there." Sea ice age does exactly that: instead of a single concentration number, the dataset breaks the ice pack down by how many years it has survived — from first-year ice up to six-year-plus ice — which is a much better proxy for how resilient the ice cover actually is than total concentration alone. It also gave me a smaller, more manageable NetCDF file to practice the inspect -> aggregate -> database -> dashboard pipeline on before scaling up to the full 3D ocean model in the biogeochemistry project.</p>
 
 
 Questions I tried to answer:
@@ -187,7 +187,7 @@ Daily mean Arctic sea ice age across May 2026, computed from the spatial average
 
 
 <p align="center">
-  <img src="daily_mean_ice_age.png" alt="Daily Mean Arctic Sea Ice Age" width="800">
+  <img src="visualisations/daily_mean_ice_age.png" alt="Daily Mean Arctic Sea Ice Age" width="800">
 </p>
 
 
@@ -201,9 +201,10 @@ The daily concentration-by-category table was loaded into Power BI to turn the S
 
 <p align="justify">
 Power BI report file:
-<p align="center">
-  <code>arctic_sea_ice_power_bi_dashboard.pbix</code>
 </p>
+
+
+<p align="center"><code>arctic_sea_ice_power_bi_dashboard.pbix</code></p>
 
 
 ## Results
