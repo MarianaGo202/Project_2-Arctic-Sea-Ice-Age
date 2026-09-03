@@ -113,23 +113,18 @@ SELECT
     MIN(conc_1yi) AS min_1_year,
     MAX(conc_1yi) AS max_1_year,
     AVG(conc_1yi) AS avg_1_year,
-
     MIN(conc_2yi) AS min_2_year,
     MAX(conc_2yi) AS max_2_year,
     AVG(conc_2yi) AS avg_2_year,
-
     MIN(conc_3yi) AS min_3_year,
     MAX(conc_3yi) AS max_3_year,
     AVG(conc_3yi) AS avg_3_year,
-
     MIN(conc_4yi) AS min_4_year,
     MAX(conc_4yi) AS max_4_year,
     AVG(conc_4yi) AS avg_4_year,
-
     MIN(conc_5yi) AS min_5_year,
     MAX(conc_5yi) AS max_5_year,
     AVG(conc_5yi) AS avg_5_year,
-
     MIN(conc_6yi) AS min_6_year,
     MAX(conc_6yi) AS max_6_year,
     AVG(conc_6yi) AS avg_6_year
