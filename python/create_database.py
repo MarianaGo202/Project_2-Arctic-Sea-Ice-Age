@@ -1,73 +1,38 @@
-# Import libraries
 import sqlite3
+from pathlib import Path
+
 import pandas as pd
 
-
-# ============================================================
-# 1. LOAD THE PROCESSED CSV FILE
-# ============================================================
-
-# Load the CSV file generated during the Python analysis
-arquivo_csv = "dados_processados/dados_gelo_artico_sql.csv"
-
-df = pd.read_csv(arquivo_csv)
+CSV_PATH = Path("data/processed/dados_gelo_artico_sql.csv")
+DB_PATH = Path("gelo_artico.db")
+TABLE_NAME = "ice_concentration"
 
 
-# Display the first rows
-print("CSV data:")
+def load_csv(csv_path: Path) -> pd.DataFrame:
+    if not csv_path.exists():
+        raise FileNotFoundError(f"CSV not found: {csv_path}")
 
-print(df.head())
-
-
-# ============================================================
-# 2. CONNECT TO THE SQLITE DATABASE
-# ============================================================
-
-# Create or connect to the SQLite database
-connection = sqlite3.connect(
-    "gelo_artico.db"
-)
+    df = pd.read_csv(csv_path)
+    print(f"Loaded {len(df)} rows from {csv_path}")
+    print(df.head())
+    return df
 
 
-# ============================================================
-# 3. CREATE THE DATABASE TABLE
-# ============================================================
+def save_to_sqlite(df: pd.DataFrame, db_path: Path, table_name: str) -> None:
+    with sqlite3.connect(db_path) as connection:
+        df.to_sql(table_name, connection, if_exists="replace", index=False)
 
-# Save the DataFrame as a SQL table
-df.to_sql(
-    "ice_concentration",
-    connection,
-    if_exists="replace",
-    index=False
-)
+        # Read a few rows back as a sanity check that the write worked
+        preview = pd.read_sql_query(f"SELECT * FROM {table_name} LIMIT 5", connection)
+        print(f"\nPreview of '{table_name}' in {db_path}:")
+        print(preview)
 
 
-# ============================================================
-# 4. CHECK THE DATABASE TABLE
-# ============================================================
-
-# Read the table back from SQLite
-table = pd.read_sql_query(
-    "SELECT * FROM ice_concentration LIMIT 5",
-    connection
-)
+def main():
+    df = load_csv(CSV_PATH)
+    save_to_sqlite(df, DB_PATH, TABLE_NAME)
+    print(f"\nDatabase created successfully: {DB_PATH}")
 
 
-# Display the first records
-print("\nDatabase table:")
-
-print(table)
-
-
-# ============================================================
-# 5. CLOSE THE DATABASE CONNECTION
-
-
-# Close the database connection
-connection.close()
-
-
-# Confirm successful database creation
-print("\nDatabase created successfully!")
-
-print("File: gelo_artico.db")
+if __name__ == "__main__":
+    main()
