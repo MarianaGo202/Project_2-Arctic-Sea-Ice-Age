@@ -2,11 +2,11 @@ import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Paths
-NC_PATH = "dados_processados/gelo_artico_maio_2026.nc"
-PLOT_PATH = "daily_mean_ice_age.png"
-SQL_CSV_PATH = "dados_processados/dados_gelo_artico_sql.csv"
-POWERBI_CSV_PATH = "powerbi_gelo_artico.csv"
+# Paths 
+NC_PATH = "data/processed/arctic_sea_ice_may_2026.nc"
+PLOT_PATH = "visualisations/daily_mean_ice_age.png"
+SQL_CSV_PATH = "data/processed/arctic_sea_ice_sql.csv"
+POWERBI_CSV_PATH = "data/processed/powerbi_arctic_sea_ice.csv"
 
 # Variables
 CONCENTRATION_VARIABLES = [
@@ -19,8 +19,6 @@ CONCENTRATION_VARIABLES = [
 ]
 
 def inspect_dataset(dados: xr.Dataset) -> None:
-    """Prints structure, variables, coordinates, dimensions, attributes
-    and missing-value counts for the dataset."""
     print("Dataset:")
     print(dados)
 
@@ -44,8 +42,6 @@ def inspect_dataset(dados: xr.Dataset) -> None:
         print(f"{variable}: {missing}")
 
 def analyze_sea_ice_age(dados: xr.Dataset) -> pd.DataFrame:
-    """Computes sea ice age statistics and builds the daily mean time
-    series as a DataFrame."""
     siage = dados["siage"]
 
     print("\nSea ice age statistics:")
@@ -68,7 +64,9 @@ def analyze_sea_ice_age(dados: xr.Dataset) -> pd.DataFrame:
     return df_time
 
 def plot_daily_mean_age(df_time: pd.DataFrame) -> None:
-    """Plots and saves the daily mean sea ice age time series."""
+    import os
+    os.makedirs("visualisations", exist_ok=True)
+
     plt.figure(figsize=(10, 6))
     plt.plot(df_time["time"], df_time["mean_ice_age"])
     plt.xlabel("Date")
@@ -81,8 +79,6 @@ def plot_daily_mean_age(df_time: pd.DataFrame) -> None:
     plt.show()
 
 def analyze_concentration_by_age(dados: xr.Dataset) -> pd.DataFrame:
-    """Computes mean concentration per ice-age category and builds the
-    daily spatial-mean concentration DataFrame."""
     print("\nMean concentration:")
     for variable in CONCENTRATION_VARIABLES:
         mean_value = dados[variable].mean().item()
@@ -100,9 +96,9 @@ def analyze_concentration_by_age(dados: xr.Dataset) -> pd.DataFrame:
     return df_concentration
 
 def export_data(df_concentration: pd.DataFrame) -> None:
-    """Exports the processed concentration data for the SQL and Power BI
-    stages. Both files currently hold the same data, kept separate since
-    those two consumers are independent and may diverge later."""
+    import os
+    os.makedirs("data/processed", exist_ok=True)
+
     print("\nSQL DataFrame:")
     print(df_concentration.head())
     print("\nSQL DataFrame shape:")
@@ -114,6 +110,7 @@ def export_data(df_concentration: pd.DataFrame) -> None:
 
     df_concentration.to_csv(POWERBI_CSV_PATH, index=False)
     print("\nPower BI CSV exported successfully!")
+    print(f"File: {POWERBI_CSV_PATH}")
     print("Power BI dataset shape:", df_concentration.shape)
 
 def main():
