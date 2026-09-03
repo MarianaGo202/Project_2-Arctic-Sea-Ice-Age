@@ -1,12 +1,23 @@
 import os
 
-pasta = "dados_brutos"
+FOLDERS = [
+    "data/raw",
+    "data/processed",
+    "database",
+    "power bi",
+    "python",
+    "sql",
+    "visualisations",
+]
 
-print("Pasta dos dados:")
-print(os.path.abspath(pasta))
+def create_folders(folders: list[str]) -> None:
+    for folder in folders:
+        os.makedirs(folder, exist_ok=True)
+        print(f"Ready: {folder}")
 
-print("\nArquivos encontrados:")
+def main():
+    create_folders(FOLDERS)
+    print("\nProject folder structure created successfully!")
 
-for arquivo in os.listdir(pasta):
-    print(arquivo)
-    
+if __name__ == "__main__":
+    main()
